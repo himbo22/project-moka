@@ -1,0 +1,24 @@
+:root {
+    --primary-color: #ffff;
+    --secondary-color: #d3b4f7;
+    --white-color: #fff;
+    --text-color: #626973;
+    --header-height: 84px;
+    --app-default-width: 1455px;
+    --app-tablet-width: 942px;
+    --app-mobile-width: 577px;
+}
+
+* {
+    box-sizing: inherit;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 62.5%;
+    box-sizing: border-box;
+    background-color: var(--primary-color);
+    padding: 0 80px;
+    font-family: 'Noto+Serif', sans-serif;
+}

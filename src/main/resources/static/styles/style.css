@@ -1,0 +1,116 @@
+.app-header {
+    display: flex;
+    height: 80px;
+    align-items: center;
+    overflow: hidden;
+    justify-content: space-between;
+}
+
+.app-header img {
+    width: 70px;
+}
+
+.app-header .element {
+    display: flex;
+}
+
+.app-header .avatar {
+    height: 50px;
+    width: 50px;
+    background-color: var(--secondary-color);
+    background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBgFHbUAevtnWRU3E94k9tZnEKIJXXDC6AOQ&s);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    border-radius: 50%;
+    display: block;
+    cursor: pointer;
+    user-select: none;
+}
+
+.app-body {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    /* grid-template-rows: repeat(10,1fr); */
+    gap: 10px 20px;
+    margin-top: 20px;
+    list-style: none;
+}
+
+.app-body .item {
+    height: 300px;
+    display: flex;
+    padding: 5px;
+    flex-direction: column;
+    box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
+    text-decoration: none;
+}
+
+.app-body .item:hover {
+    scale: 1.01;
+}
+
+.app-body .image {
+    background-image: url(https://d.player.one/en/full/214644/take-my-money.jpg?w=1600&h=1600&q=88&f=91dbef1ed5e93c97d01a3eb0e9ae3cda);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: block;
+    width: 100%;
+    flex: 65;
+}
+
+.app-body .content {
+    flex: 35;
+    display: flex;
+    flex-direction: column;
+}
+
+.app-body .product-name {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* number of lines to show */
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    font-size: 1.4rem;
+    line-height: 1.6rem;
+    height: 3.2rem;
+    margin: 5px 0;
+    color: black;
+}
+
+.app-body .price {
+    display: flex;
+    justify-content: space-between;
+    padding: 7px 0;
+}
+
+
+.app-body .old-price {
+    text-decoration: line-through;
+    color: black;
+    font-size: 1.4rem;
+}
+
+.app-body .new-price {
+    font-size: 1.8rem;
+    color: #dcb3f7;
+}
+
+.app-body .review {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: black;
+    padding: 5px 0;
+}
+
+.app-body .sold {
+    font-size: 1.4rem;
+}
+
+.app-body .location {
+    font-size: 1.4rem;
+    padding: 5px 0;
+    color: black;
+}
