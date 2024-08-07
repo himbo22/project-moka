@@ -77,12 +77,14 @@
     height: 3.2rem;
     margin: 5px 0;
     color: black;
+    user-select: none;
 }
 
 .app-body .price {
     display: flex;
     justify-content: space-between;
     padding: 7px 0;
+    user-select: none;
 }
 
 
@@ -103,14 +105,17 @@
     gap: 10px;
     color: black;
     padding: 5px 0;
+    user-select: none;
 }
 
 .app-body .sold {
     font-size: 1.4rem;
+    user-select: none;
 }
 
 .app-body .location {
     font-size: 1.4rem;
     padding: 5px 0;
     color: black;
+    user-select: none;
 }
