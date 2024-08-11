@@ -2,9 +2,91 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title id="product-name">Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/style.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/base.css}">
+<!--    <link rel="stylesheet" href="../static/styles/style.css">-->
+<!--    <link rel="stylesheet" href="../static/styles/base.css">-->
+    <script type="text/javascript" th:src="@{/scripts/product.js}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+          integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap"
+          rel="stylesheet">
 </head>
 <body>
+<header class="app-header">
+    <a href="" id="illit">
+        <img src="https://ih1.redbubble.net/image.5477237419.5546/bg,f8f8f8-flat,750x,075,f-pad,750x1000,f8f8f8.jpg"
+             alt=""/>
+    </a>
+    <div class="element">
+        <div class="avatar"></div>
+    </div>
+    
+</header>
 
+<div class="product-body">
+    <div class="product">
+        <div class="main-product-image" id="main-product-image-id">
+        </div>
+        <div class="product-detail">
+            <span class="product-name" id="product-name-id"></span>
+            <div class="product-rate">
+                <a href="" class="rate">
+                    <i class="fa-regular fa-star"></i>
+                    <i class="fa-regular fa-star"></i>
+                    <i class="fa-regular fa-star"></i>
+                    <i class="fa-regular fa-star"></i>
+                    <i class="fa-regular fa-star"></i>
+                </a>
+                <a href="" class="review">
+                    <span class="reviews">0</span>
+                    Ratings
+                </a>
+                <div class="sold">
+                    <span class="amount">0</span>
+                    Sold
+                </div>
+            </div>
+            <div class="product-price">
+                <span class="old-price" id="old-price-id"></span>
+                <span class="new-price" id="new-price-id"></span>
+            </div>
+            <div class="product-shipping">
+                <div class="product-shipping-address">
+                    <i class="fa-solid fa-truck"></i>
+                    <span>Shipping To</span>
+                </div>
+                <div class="product-shipping-fee">
+                    <span>Shipping Fee</span>
+                </div>
+            </div>
+            <div class="product-quantity">
+                <span>Quantity</span>
+                <div class="product-quantity__add-product">
+                    <div class="subtract">-</div>
+                    <label>
+                        <input type="number" class="amount" value="1" onkeydown="return false" onkeyup="return false">
+                    </label>
+                    <div class="add">+</div>
+                </div>
+                <div class="product-available">
+                    <span id="product-available-amount"></span>
+                    <span>available</span>
+                </div>
+            </div>
+            <div class="product-buying">
+                <div class="btn product-cart">
+                    <i class="fa-solid fa-cart-plus"></i>
+                    Add To Card
+                </div>
+                <div class="btn product-buy">Buy Now</div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

@@ -1,6 +1,10 @@
 // const BASE_URL = "https://cc45-104-28-249-53.ngrok-free.app"
 const BASE_URL = "http://localhost:8080";
 
+window.onload = () => {
+    document.getElementById('illit').href = "http://localhost:8080"
+}
+
 fetch(`${BASE_URL}/api/products`)
     .then(response => {
         if (!response.ok) {
@@ -12,7 +16,7 @@ fetch(`${BASE_URL}/api/products`)
         productData.forEach(data => {
             const markup =
                 `<li>
-                <a class="item" href="${BASE_URL}/products/${data.id}">
+                <a class="item" href="${BASE_URL}/products/item?id=${data.id}">
                     <div class="image" style="background-image: url('${data.image}')"></div>
                     <div class="content">
                         <span class="product-name">${data.name}</span>
@@ -42,3 +46,6 @@ fetch(`${BASE_URL}/api/products`)
     .catch(error => {
         console.error(error)
     })
+
+
+

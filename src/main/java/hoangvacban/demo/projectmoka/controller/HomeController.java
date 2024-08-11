@@ -2,7 +2,6 @@ package hoangvacban.demo.projectmoka.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class HomeController {
@@ -11,8 +10,8 @@ public class HomeController {
         return "index";
     }
 
-    @GetMapping("products/{id}")
-    public String productDetail(@PathVariable String id) {
+    @GetMapping("products/item")
+    public String productDetail() {
         return "product";
     }
 
