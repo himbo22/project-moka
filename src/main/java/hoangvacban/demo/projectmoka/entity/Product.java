@@ -1,6 +1,10 @@
 package hoangvacban.demo.projectmoka.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,25 +19,22 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @NotNull
     private String name;
+    @NotNull
     private double oldPrice;
+    @NotNull
     private double newPrice;
+    @NotNull
     private Integer stock;
+    @NotNull
     private String description;
+    @NotNull
     private Integer rated;
+    @NotNull
     private String image;
+    @NotNull
     private Integer sold;
+    @NotNull
     private String location;
-
-    public Product(String name, double oldPrice, double newPrice, Integer stock, String description, Integer rated, String image, Integer sold, String location) {
-        this.name = name;
-        this.oldPrice = oldPrice;
-        this.newPrice = newPrice;
-        this.stock = stock;
-        this.description = description;
-        this.rated = rated;
-        this.image = image;
-        this.sold = sold;
-        this.location = location;
-    }
 }

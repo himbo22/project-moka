@@ -1,13 +1,17 @@
 package hoangvacban.demo.projectmoka.service;
 
 import hoangvacban.demo.projectmoka.entity.Product;
+import hoangvacban.demo.projectmoka.model.request.ProductRequest;
 import hoangvacban.demo.projectmoka.repository.ProductRepository;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.support.MissingServletRequestPartException;
 
 import java.util.List;
-import java.util.Optional;
+
+import static hoangvacban.demo.projectmoka.util.Const.BASE_IMAGE_URL;
 
 @Service
 public class ProductService {
@@ -24,25 +28,40 @@ public class ProductService {
     }
 
     public Product getProductById(Long id) {
+        return productRepository.findById(id).orElseThrow(
+                () -> new RuntimeException("product id not found")
+        );
+    }
+
+    public Product addProduct(ProductRequest product, MultipartFile image) {
         try {
-            Optional<Product> foundProduct = productRepository.findById(id);
-            if (foundProduct.isEmpty()) {
-                throw new RuntimeException("Product is empty");
+            if (image.isEmpty()) {
+                throw new MissingServletRequestPartException("image is empty");
             }
-            return foundProduct.get();
-        } catch (Exception e) {
-            throw new RuntimeException("Cannot find product");
+            if (product == null) {
+                throw new MissingServletRequestPartException("product is empty");
+            }
+            String imageFileName = BASE_IMAGE_URL + imageStorageService.storeImage(image);
+            Product addedProduct = getProduct(product, imageFileName);
+            return productRepository.save(addedProduct);
+        } catch (MissingServletRequestPartException missingServletRequestPartException) {
+            throw new RuntimeException(missingServletRequestPartException.getMessage());
         }
     }
 
-    public Product createProduct(Product product, MultipartFile file) {
-        try {
-            String fileName = "http://localhost:8080/api/products/images/" + imageStorageService.storeImage(file);
-            product.setImage(fileName);
-            return productRepository.save(product);
-        } catch (Exception e) {
-            throw new RuntimeException("Cannot store image", e);
-        }
+    private static @NotNull Product getProduct(ProductRequest product, String imageFileName) {
+        Product addedProduct = new Product();
+        addedProduct.setImage(imageFileName);
+        addedProduct.setName(product.getName());
+        addedProduct.setDescription(product.getDescription());
+        addedProduct.setOldPrice(product.getOldPrice());
+        addedProduct.setNewPrice(product.getNewPrice());
+        addedProduct.setStock(product.getStock());
+        addedProduct.setRated(product.getRated());
+        addedProduct.setSold(product.getSold());
+        addedProduct.setStock(product.getStock());
+        addedProduct.setLocation(product.getLocation());
+        return addedProduct;
     }
 
 }

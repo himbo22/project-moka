@@ -75,7 +75,7 @@ public class ImageStorageService {
             if (resource.exists() || resource.isReadable()) {
                 return StreamUtils.copyToByteArray(resource.getInputStream());
             }
-            throw new RuntimeException("File not found");
+            throw new IOException("File not found");
         } catch (IOException ioException) {
             throw new RuntimeException("Unable to read image", ioException);
         }
