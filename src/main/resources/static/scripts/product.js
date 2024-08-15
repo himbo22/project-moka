@@ -1,12 +1,6 @@
-// const BASE_URL = "https://cc45-104-28-249-53.ngrok-free.app"
-const BASE_URL = "http://localhost:8080";
+import {BASE_URL} from './const.js'
 
 const url = new URLSearchParams(window.location.search)
-
-window.onload = () => {
-    document.getElementById('illit').href = "http://localhost:8080"
-}
-
 
 fetch(`${BASE_URL}/api/products/${url.get('id')}`)
     .then(response => {

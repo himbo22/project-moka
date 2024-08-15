@@ -15,4 +15,9 @@ public class HomeController {
         return "product";
     }
 
+    @GetMapping("/profile")
+    public String profile() {
+        return "profile";
+    }
+
 }
