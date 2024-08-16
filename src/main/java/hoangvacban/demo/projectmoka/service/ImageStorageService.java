@@ -17,6 +17,8 @@ import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.UUID;
 
+import static hoangvacban.demo.projectmoka.util.Const.BASE_IMAGE_URL;
+
 @Service
 public class ImageStorageService {
     private final Path storageFolder = Paths.get("uploads");
@@ -62,7 +64,7 @@ public class ImageStorageService {
             try (InputStream inputStream = file.getInputStream()) {
                 Files.copy(inputStream, destinationPath, StandardCopyOption.REPLACE_EXISTING);
             }
-            return newFileName;
+            return BASE_IMAGE_URL + newFileName;
         } catch (IOException ioException) {
             throw new RuntimeException("Unable to store image", ioException);
         }

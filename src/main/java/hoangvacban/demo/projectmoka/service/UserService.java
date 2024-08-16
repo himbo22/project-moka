@@ -1,24 +1,29 @@
 package hoangvacban.demo.projectmoka.service;
 
 import hoangvacban.demo.projectmoka.entity.User;
+import hoangvacban.demo.projectmoka.exception.AppException;
+import hoangvacban.demo.projectmoka.exception.ErrorCode;
+import hoangvacban.demo.projectmoka.mapper.UserMapper;
 import hoangvacban.demo.projectmoka.model.request.UserRequest;
 import hoangvacban.demo.projectmoka.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private ImageStorageService imageStorageService;
+    UserRepository userRepository;
+    ImageStorageService imageStorageService;
+    UserMapper userMapper;
 
     public User getUser(String id) {
         return userRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("User ID not found")
+                () -> new AppException(ErrorCode.NOT_FOUND)
         );
     }
 
@@ -28,10 +33,7 @@ public class UserService {
                 throw new RuntimeException("Invalid image file");
             }
             String imageUrl = imageStorageService.storeImage(image);
-            User createdUser = new User();
-            createdUser.setUsername(user.getUsername());
-            createdUser.setPassword(user.getPassword());
-            createdUser.setEmail(user.getEmail());
+            User createdUser = userMapper.toUser(user);
             createdUser.setAvatar(imageUrl);
             return userRepository.save(createdUser);
         } catch (Exception e) {

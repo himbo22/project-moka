@@ -4,17 +4,21 @@ import hoangvacban.demo.projectmoka.entity.User;
 import hoangvacban.demo.projectmoka.model.request.UserRequest;
 import hoangvacban.demo.projectmoka.model.response.ResponseObject;
 import hoangvacban.demo.projectmoka.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/users/")
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    UserService userService;
 
     @GetMapping("{id}")
     public ResponseEntity<ResponseObject> getUser(@PathVariable String id) {
@@ -26,7 +30,7 @@ public class UserController {
 
     @PostMapping("/create")
     public ResponseEntity<ResponseObject> createUser(
-            @RequestPart("user") UserRequest user,
+            @RequestPart("user") @Valid UserRequest user,
             @RequestPart("image") MultipartFile image
     ) {
         User createdUser = userService.createUser(user, image);

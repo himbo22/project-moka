@@ -4,7 +4,9 @@ import hoangvacban.demo.projectmoka.entity.Product;
 import hoangvacban.demo.projectmoka.model.request.ProductRequest;
 import hoangvacban.demo.projectmoka.model.response.ResponseObject;
 import hoangvacban.demo.projectmoka.service.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,10 +15,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/products")
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ProductController {
 
-    @Autowired
-    private ProductService productService;
+    ProductService productService;
 
     @GetMapping("")
     public List<Product> getAllProducts() {

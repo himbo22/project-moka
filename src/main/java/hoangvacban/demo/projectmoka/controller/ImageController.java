@@ -1,7 +1,9 @@
 package hoangvacban.demo.projectmoka.controller;
 
 import hoangvacban.demo.projectmoka.service.ImageStorageService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,10 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/images")
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ImageController {
 
-    @Autowired
-    private ImageStorageService imageStorageService;
+    ImageStorageService imageStorageService;
 
     @GetMapping("/{fileName:.+}")
     public ResponseEntity<byte[]> loadImage(@PathVariable String fileName) {
