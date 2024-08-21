@@ -261,3 +261,50 @@
     margin-top: 50px;
     gap: 30px;
 }
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 50px;
+    margin-top: 50px;
+    background-image: linear-gradient(to right, #f5eefb, #eadcfb);
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border-radius: 15px;
+    gap: 20px;
+}
+
+.login-form-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-form-item__input {
+    width: 550px;
+    font-size: 1.6rem;
+    height: 40px;
+    padding-left: 10px;
+    border-color: white;
+    border: 0;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    border-radius: 3px;
+}
+
+.login-form-item__input:focus {
+    outline-color: var(--secondary-color);
+    caret-color: var(--secondary-color);
+}
+
+.login-form-item__label {
+    width: 550px;
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--secondary-text-color);
+    margin-left: 15px;
+    margin-bottom: 5px;
+}
+
+input[type=text] {
+    display: inline-block;
+}

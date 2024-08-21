@@ -9,6 +9,8 @@ import hoangvacban.demo.projectmoka.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,16 +30,14 @@ public class UserService {
     }
 
     public User createUser(UserRequest user, MultipartFile image) {
-        try {
-            if (user == null || image.isEmpty() || image.getSize() == 0) {
-                throw new RuntimeException("Invalid image file");
-            }
-            String imageUrl = imageStorageService.storeImage(image);
-            User createdUser = userMapper.toUser(user);
-            createdUser.setAvatar(imageUrl);
-            return userRepository.save(createdUser);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        if (user == null || image.isEmpty()) {
+            throw new RuntimeException("Invalid input");
         }
+        String imageUrl = imageStorageService.storeImage(image);
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+        User createdUser = userMapper.toUser(user);
+        createdUser.setAvatar(imageUrl);
+        createdUser.setPassword(passwordEncoder.encode(user.getPassword()));
+        return userRepository.save(createdUser);
     }
 }
