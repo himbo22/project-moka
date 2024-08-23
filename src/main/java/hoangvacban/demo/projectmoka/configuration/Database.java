@@ -1,4 +1,4 @@
-package hoangvacban.demo.projectmoka.config;
+package hoangvacban.demo.projectmoka.configuration;
 
 import org.springframework.context.annotation.Configuration;
 
