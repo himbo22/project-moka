@@ -25,4 +25,7 @@ public class User {
     private String email;
     @NotNull
     private String avatar;
+
+//    @OneToMany(mappedBy = "users")
+//    private List<Like> like;
 }

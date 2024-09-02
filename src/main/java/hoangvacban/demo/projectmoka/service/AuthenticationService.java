@@ -39,6 +39,7 @@ public class AuthenticationService {
     @Value("${jwp.signerKey}")
     String signerKey;
 
+    // verify token
     public IntrospectResponse introspect(IntrospectRequest request) {
         var token = request.getToken();
         // verify
@@ -77,10 +78,10 @@ public class AuthenticationService {
         if (!authenticated)
             throw new AppException(ErrorCode.UNAUTHENTICATED);
 
-        String token = generateToken(authenticationRequest.getUsername());
+//        String token = generateToken(authenticationRequest.getUsername());
 
         return AuthenticationResponse.builder()
-                .token(token)
+                .token("ok")
                 .build();
     }
 
