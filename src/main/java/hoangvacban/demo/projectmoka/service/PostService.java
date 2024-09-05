@@ -10,6 +10,7 @@ import hoangvacban.demo.projectmoka.repository.PostRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -60,11 +61,12 @@ public class PostService {
         );
     }
 
-    public ResponseObject getAllPosts() {
+    public ResponseObject getAllPosts(int page, int size) {
+        PageRequest pageRequest = PageRequest.of(page, size);
         return new ResponseObject(
                 "ok",
                 "ok",
-                postRepository.findAll()
+                postRepository.findAll(pageRequest)
         );
     }
 }

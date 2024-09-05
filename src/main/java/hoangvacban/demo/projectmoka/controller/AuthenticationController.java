@@ -22,13 +22,14 @@ public class AuthenticationController {
 
     AuthenticationService authenticationService;
 
-    @PostMapping("/login")
-    public ResponseEntity<ResponseObject> login(@RequestBody AuthenticationRequest authenticationRequest) {
-        AuthenticationResponse result = authenticationService.authenticate(authenticationRequest);
-        return ResponseEntity.ok().body(
-                new ResponseObject("ok", "ok", result)
-        );
-    }
+//    @PostMapping("/login")
+//    public ResponseEntity<ResponseObject> login(@RequestBody AuthenticationRequest authenticationRequest) {
+//        AuthenticationResponse result = authenticationService.login(authenticationRequest);
+//        return ResponseEntity.ok().body(
+//                new ResponseObject("ok", "ok", result)
+//        );
+//    }
+
 
     @PostMapping("/introspect")
     public ResponseEntity<ResponseObject> introspect(@RequestBody IntrospectRequest introspectRequest) {

@@ -13,6 +13,7 @@ import hoangvacban.demo.projectmoka.repository.PostRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -54,12 +55,21 @@ public class CommentService {
         );
     }
 
-    public ResponseObject getComments() {
+    public ResponseObject getComments(int page, int size) {
+        PageRequest pageRequest = PageRequest.of(page, size);
         return new ResponseObject(
                 "ok",
                 "ok",
-                commentRepository.findAll()
+                commentRepository.findAll(pageRequest)
         );
     }
 
+    public ResponseObject getCommentsByPostId(long post_id, int page, int size) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+        return new ResponseObject(
+                "ok",
+                "ok",
+                commentRepository.findAllCommentsByPostId(post_id, pageRequest)
+        );
+    }
 }

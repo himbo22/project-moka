@@ -1,6 +1,7 @@
 package hoangvacban.demo.projectmoka.controller;
 
 import hoangvacban.demo.projectmoka.entity.User;
+import hoangvacban.demo.projectmoka.model.request.LoginRequest;
 import hoangvacban.demo.projectmoka.model.request.UserRequest;
 import hoangvacban.demo.projectmoka.model.response.ResponseObject;
 import hoangvacban.demo.projectmoka.service.UserService;
@@ -21,7 +22,7 @@ public class UserController {
     UserService userService;
 
     @GetMapping("{id}")
-    public ResponseEntity<ResponseObject> getUser(@PathVariable String id) {
+    public ResponseEntity<ResponseObject> getUser(@PathVariable long id) {
         User user = userService.getUser(id);
         return ResponseEntity.ok().body(
                 new ResponseObject("ok", "ok", user)
@@ -30,12 +31,18 @@ public class UserController {
 
     @PostMapping("/create")
     public ResponseEntity<ResponseObject> createUser(
-            @RequestPart("user") @Valid UserRequest user,
+            @Valid @RequestPart("user") UserRequest user,
             @RequestPart("image") MultipartFile image
     ) {
-        User createdUser = userService.createUser(user, image);
         return ResponseEntity.ok().body(
-                new ResponseObject("ok", "ok", createdUser)
+                userService.createUser(user, image)
+        );
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<ResponseObject> loginUser(@RequestBody @Valid LoginRequest user) {
+        return ResponseEntity.ok().body(
+                userService.loginUser(user)
         );
     }
 

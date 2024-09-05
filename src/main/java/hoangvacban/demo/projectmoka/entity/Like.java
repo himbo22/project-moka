@@ -16,11 +16,4 @@ import lombok.Setter;
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
 //    private long id;
 //
-//    @ManyToOne
-//    @JoinColumn(name = "posts_id")
-//    private Post post;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "users_id")
-//    private User user;
 //}

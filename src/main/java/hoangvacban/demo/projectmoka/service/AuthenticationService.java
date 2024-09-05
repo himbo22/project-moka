@@ -67,23 +67,23 @@ public class AuthenticationService {
     }
 
     // login
-    public AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest) {
-        var user = userRepository.findByUsername(authenticationRequest.getUsername()).orElseThrow(() ->
-                new AppException(ErrorCode.USER_NOT_EXISTED));
-
-        // encode current password, compare to the password stored in the DB
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
-        boolean authenticated = passwordEncoder.matches(authenticationRequest.getPassword(), user.getPassword());
-
-        if (!authenticated)
-            throw new AppException(ErrorCode.UNAUTHENTICATED);
-
-//        String token = generateToken(authenticationRequest.getUsername());
-
-        return AuthenticationResponse.builder()
-                .token("ok")
-                .build();
-    }
+//    public AuthenticationResponse login(AuthenticationRequest authenticationRequest) {
+//        var user = userRepository.findByUsername(authenticationRequest.getUsername()).orElseThrow(() ->
+//                new AppException(ErrorCode.USER_NOT_EXISTED));
+//
+//        // encode current password, compare to the password stored in the DB
+//        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+//        boolean authenticated = passwordEncoder.matches(authenticationRequest.getPassword(), user.getPassword());
+//
+//        if (!authenticated)
+//            throw new AppException(ErrorCode.UNAUTHENTICATED);
+//
+////        String token = generateToken(authenticationRequest.getUsername());
+//
+//        return AuthenticationResponse.builder()
+//                .token("ok")
+//                .build();
+//    }
 
     private String generateToken(String username) {
         JWSHeader jwsHeader = new JWSHeader(JWSAlgorithm.HS512);

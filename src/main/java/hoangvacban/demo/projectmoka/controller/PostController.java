@@ -27,8 +27,8 @@ public class PostController {
     }
 
     @GetMapping("/all")
-    public ResponseObject getAllPosts() {
-        return postService.getAllPosts();
+    public ResponseObject getAllPosts(@RequestParam int page, @RequestParam int size) {
+        return postService.getAllPosts(page, size);
     }
 
 }

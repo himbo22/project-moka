@@ -12,6 +12,8 @@ public enum ErrorCode {
     UNAUTHENTICATED("1006", "Wrong password"),
     INTERNAL_SERVER_ERROR("1007", "Server error"),
     EXPIRED_TOKEN("1008", "Expired token"),
+    EMPTY_INFORMATION("1009", "Empty information"),
+    USER_ALREADY_EXISTED("1010", "User already existed"),
     ;
 
     private final String statusCode;

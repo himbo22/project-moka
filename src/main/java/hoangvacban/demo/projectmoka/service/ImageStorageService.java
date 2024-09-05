@@ -64,7 +64,7 @@ public class ImageStorageService {
             try (InputStream inputStream = file.getInputStream()) {
                 Files.copy(inputStream, destinationPath, StandardCopyOption.REPLACE_EXISTING);
             }
-            return BASE_IMAGE_URL + newFileName;
+            return newFileName;
         } catch (IOException ioException) {
             throw new RuntimeException("Unable to store image", ioException);
         }

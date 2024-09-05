@@ -23,7 +23,6 @@ public class Post {
     private String author;
     private String content;
     private Date createdAt = new Date();
-//    private long likeAmount;
 
     @JsonIgnore
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.EAGER)

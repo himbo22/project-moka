@@ -17,11 +17,11 @@ public class CommentController {
     CommentService commentService;
 
     @GetMapping("all")
-    public ResponseObject getAllComments() {
-        return commentService.getComments();
+    public ResponseObject getAllComments(@RequestParam int page, @RequestParam int size) {
+        return commentService.getComments(page, size);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("{id}")
     public ResponseObject getCommentById(@PathVariable long id) {
         return commentService.getCommentById(id);
     }
@@ -30,5 +30,13 @@ public class CommentController {
     @PutMapping("add")
     public ResponseObject addComment(@RequestBody CommentRequest comment) {
         return commentService.addComment(comment);
+    }
+
+    @GetMapping("post/{id}")
+    public ResponseObject getAllComments(
+            @PathVariable long id,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return commentService.getCommentsByPostId(id, page, size);
     }
 }
