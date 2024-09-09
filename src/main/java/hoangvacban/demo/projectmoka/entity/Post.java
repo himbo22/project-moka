@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -20,9 +19,13 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String author;
+    private String caption;
     private String content;
-    private Date createdAt = new Date();
+    private String createdAt;
+
+    @ManyToOne
+    @JoinColumn(name = "author", referencedColumnName = "id")
+    private User author;
 
     @JsonIgnore
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.EAGER)

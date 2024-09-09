@@ -5,12 +5,15 @@ import hoangvacban.demo.projectmoka.entity.User;
 import hoangvacban.demo.projectmoka.exception.AppException;
 import hoangvacban.demo.projectmoka.exception.ErrorCode;
 import hoangvacban.demo.projectmoka.model.request.FollowRequest;
+import hoangvacban.demo.projectmoka.model.response.FollowerResponse;
 import hoangvacban.demo.projectmoka.model.response.ResponseObject;
 import hoangvacban.demo.projectmoka.repository.FollowerRepository;
 import hoangvacban.demo.projectmoka.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -22,6 +25,11 @@ public class FollowerService {
 
     FollowerRepository followerRepository;
     UserRepository userRepository;
+
+    public Page<FollowerResponse> getFollowers(long user_id, Pageable pageable) {
+        //        PagedModel<FollowerResponse> assemblerModel = assembler.toModel(followers);
+        return followerRepository.findFollowersByUserId(user_id, pageable);
+    }
 
     public ResponseObject followUser(FollowRequest followRequest) {
         Optional<User> followed = userRepository.findById(followRequest.getFollowedUser());

@@ -1,17 +1,21 @@
 package hoangvacban.demo.projectmoka.service;
 
 import hoangvacban.demo.projectmoka.entity.Post;
+import hoangvacban.demo.projectmoka.entity.User;
 import hoangvacban.demo.projectmoka.exception.AppException;
 import hoangvacban.demo.projectmoka.exception.ErrorCode;
 import hoangvacban.demo.projectmoka.mapper.PostMapper;
-import hoangvacban.demo.projectmoka.model.request.PostRequest;
 import hoangvacban.demo.projectmoka.model.response.ResponseObject;
+import hoangvacban.demo.projectmoka.model.response.UserPosts;
 import hoangvacban.demo.projectmoka.repository.PostRepository;
+import hoangvacban.demo.projectmoka.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
 
@@ -22,9 +26,21 @@ public class PostService {
 
     PostRepository postRepository;
     PostMapper postMapper;
+    ImageStorageService imageStorageService;
+    UserRepository userRepository;
 
-    public ResponseObject createPost(PostRequest post) {
-        Post newPost = postMapper.toPost(post);
+
+    public ResponseObject createPost(String userId, MultipartFile imageFile, String caption, String createdAt) {
+        String imageUrl = imageStorageService.storeImage(imageFile);
+        User user = userRepository.findById(Long.valueOf(userId)).orElseThrow(
+                () -> new AppException(ErrorCode.NOT_FOUND)
+        );
+        Post newPost = new Post();
+//        Post newPost = postMapper.toPost(post);
+        newPost.setContent(imageUrl);
+        newPost.setAuthor(user);
+        newPost.setCaption(caption);
+        newPost.setCreatedAt(createdAt);
         postRepository.save(newPost);
         return new ResponseObject(
                 "ok",
@@ -33,14 +49,19 @@ public class PostService {
         );
     }
 
-    public ResponseObject updatePost(long id, PostRequest postRequest) {
+    public Page<UserPosts> findAllByUserId(Long userId, Pageable pageable) {
+        userRepository.findById(userId).orElseThrow(
+                () -> new AppException(ErrorCode.NOT_FOUND)
+        );
+        return postRepository.findAllByAuthorId(userId, pageable);
+    }
+
+    public ResponseObject updatePost(long id) {
         Optional<Post> post = postRepository.findById(id);
         if (post.isEmpty()) {
             throw new AppException(ErrorCode.NOT_FOUND);
         }
-        post.get().setAuthor(postRequest.getAuthor());
-        post.get().setContent(postRequest.getContent());
-        post.get().setCreatedAt(postRequest.getCreateAt());
+
         postRepository.save(post.get());
         return new ResponseObject(
                 "ok",
@@ -61,12 +82,11 @@ public class PostService {
         );
     }
 
-    public ResponseObject getAllPosts(int page, int size) {
-        PageRequest pageRequest = PageRequest.of(page, size);
-        return new ResponseObject(
-                "ok",
-                "ok",
-                postRepository.findAll(pageRequest)
-        );
+    public Page<UserPosts> getAllPosts(Pageable pageable) {
+        return postRepository.findAllPosts(pageable);
     }
+
+//    public ResponseObject getPostByUserId(long id) {
+//
+//    }
 }

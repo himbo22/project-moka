@@ -26,8 +26,8 @@ public class User {
     private String password;
     @NotNull
     private String email;
-    @NotNull
     private String avatar;
+    private String bio;
 
     @JsonIgnore
     @OneToMany(mappedBy = "followedUser", cascade = CascadeType.ALL)
@@ -36,6 +36,14 @@ public class User {
     @JsonIgnore
     @OneToMany(mappedBy = "followingUser", cascade = CascadeType.ALL)
     private List<Follower> followingUsers;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    private List<Post> postList;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    private List<Comment> commentList;
 
 //    @OneToMany(mappedBy = "users")
 //    private List<Like> like;

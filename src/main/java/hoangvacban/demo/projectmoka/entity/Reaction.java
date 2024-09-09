@@ -9,18 +9,16 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "comments")
-public class Comment {
+@AllArgsConstructor
+@Table(name = "reactions")
+public class Reaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    private String content;
-    private String createdAt;
+    private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "post_id", referencedColumnName = "id") // referencedColumnName must be an ID name in Post
+    @JoinColumn(name = "post_id", referencedColumnName = "id")
     private Post post;
 
     @ManyToOne

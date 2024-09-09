@@ -17,4 +17,5 @@ public class UserRequest {
     @NotBlank(message = "email must not blank")
     public String email;
     public String avatar;
+    public String bio;
 }

@@ -8,7 +8,6 @@ import hoangvacban.demo.projectmoka.model.request.LoginRequest;
 import hoangvacban.demo.projectmoka.model.request.UserRequest;
 import hoangvacban.demo.projectmoka.model.response.ResponseObject;
 import hoangvacban.demo.projectmoka.repository.UserRepository;
-import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -16,8 +15,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -35,8 +32,8 @@ public class UserService {
     }
 
     public ResponseObject createUser(UserRequest user, MultipartFile image) {
-        Optional<User> checkUserExisted = userRepository.findByUsername(user.getUsername());
-        if (checkUserExisted.isPresent()) {
+        boolean existedUser = userRepository.existsByUsername(user.getUsername());
+        if (existedUser) {
             throw new AppException(ErrorCode.USER_ALREADY_EXISTED);
         }
         String imageUrl = imageStorageService.storeImage(image);

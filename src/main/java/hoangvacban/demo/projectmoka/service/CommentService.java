@@ -3,6 +3,7 @@ package hoangvacban.demo.projectmoka.service;
 
 import hoangvacban.demo.projectmoka.entity.Comment;
 import hoangvacban.demo.projectmoka.entity.Post;
+import hoangvacban.demo.projectmoka.entity.User;
 import hoangvacban.demo.projectmoka.exception.AppException;
 import hoangvacban.demo.projectmoka.exception.ErrorCode;
 import hoangvacban.demo.projectmoka.mapper.CommentMapper;
@@ -10,10 +11,12 @@ import hoangvacban.demo.projectmoka.model.request.CommentRequest;
 import hoangvacban.demo.projectmoka.model.response.ResponseObject;
 import hoangvacban.demo.projectmoka.repository.CommentRepository;
 import hoangvacban.demo.projectmoka.repository.PostRepository;
+import hoangvacban.demo.projectmoka.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -25,16 +28,22 @@ public class CommentService {
 
     CommentRepository commentRepository;
     PostRepository postRepository;
+    UserRepository userRepository;
     CommentMapper commentMapper;
 
 
-    public ResponseObject addComment(CommentRequest comment) {
+    public ResponseObject addComment(CommentRequest commentRequest) {
         // fetch Post with id
-        Post post = postRepository.findById(comment.getPost_id())
+        Post post = postRepository.findById(Long.valueOf(commentRequest.getPost_id()))
                 .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
-        // create Comment
-        Comment newComment = commentMapper.toComment(comment);
+        User author = userRepository.findById(Long.valueOf(commentRequest.getAuthor()))
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
+        // create Comment`
+        Comment newComment = new Comment();
+        newComment.setContent(commentRequest.getContent());
+        newComment.setCreatedAt(commentRequest.getCreatedAt());
         newComment.setPost(post);
+        newComment.setAuthor(author);
         commentRepository.save(newComment);
         return new ResponseObject(
                 "ok",
@@ -55,21 +64,12 @@ public class CommentService {
         );
     }
 
-    public ResponseObject getComments(int page, int size) {
-        PageRequest pageRequest = PageRequest.of(page, size);
-        return new ResponseObject(
-                "ok",
-                "ok",
-                commentRepository.findAll(pageRequest)
-        );
+    public Page<Comment> getComments(Pageable pageable) {
+        return commentRepository.findAll(pageable);
     }
 
-    public ResponseObject getCommentsByPostId(long post_id, int page, int size) {
-        PageRequest pageRequest = PageRequest.of(page, size);
-        return new ResponseObject(
-                "ok",
-                "ok",
-                commentRepository.findAllCommentsByPostId(post_id, pageRequest)
-        );
+    public Page<Comment> getCommentsByPostId(long post_id, Pageable pageable) {
+        postRepository.findById(post_id).orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
+        return commentRepository.findAllCommentsByPostId(post_id, pageable);
     }
 }
