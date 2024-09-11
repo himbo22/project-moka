@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ReactionRepository extends JpaRepository<Reaction, Long> {
+    boolean existsByPostIdAndAuthorId(Long postId, Long authorId);
+
+    Reaction getByPostIdAndAuthorId(Long postId, Long authorId);
 }

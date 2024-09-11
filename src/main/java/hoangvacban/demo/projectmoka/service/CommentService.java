@@ -8,6 +8,7 @@ import hoangvacban.demo.projectmoka.exception.AppException;
 import hoangvacban.demo.projectmoka.exception.ErrorCode;
 import hoangvacban.demo.projectmoka.mapper.CommentMapper;
 import hoangvacban.demo.projectmoka.model.request.CommentRequest;
+import hoangvacban.demo.projectmoka.model.response.CommentResponse;
 import hoangvacban.demo.projectmoka.model.response.ResponseObject;
 import hoangvacban.demo.projectmoka.repository.CommentRepository;
 import hoangvacban.demo.projectmoka.repository.PostRepository;
@@ -34,9 +35,9 @@ public class CommentService {
 
     public ResponseObject addComment(CommentRequest commentRequest) {
         // fetch Post with id
-        Post post = postRepository.findById(Long.valueOf(commentRequest.getPost_id()))
+        Post post = postRepository.findById(commentRequest.getPost_id())
                 .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
-        User author = userRepository.findById(Long.valueOf(commentRequest.getAuthor()))
+        User author = userRepository.findById(commentRequest.getAuthor())
                 .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
         // create Comment`
         Comment newComment = new Comment();
@@ -64,12 +65,13 @@ public class CommentService {
         );
     }
 
+    public Page<CommentResponse> getCommentsByPostId(Long id, Pageable pageable) {
+        postRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
+        return commentRepository.getCommentsByPostId(id, pageable);
+    }
+
     public Page<Comment> getComments(Pageable pageable) {
         return commentRepository.findAll(pageable);
     }
 
-    public Page<Comment> getCommentsByPostId(long post_id, Pageable pageable) {
-        postRepository.findById(post_id).orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
-        return commentRepository.findAllCommentsByPostId(post_id, pageable);
-    }
 }

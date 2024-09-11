@@ -6,6 +6,6 @@ import lombok.Getter;
 public class CommentRequest {
     private String content;
     private String createdAt;
-    private String author;
-    private String post_id;
+    private Long author;
+    private Long post_id;
 }

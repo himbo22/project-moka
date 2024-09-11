@@ -2,6 +2,7 @@ package hoangvacban.demo.projectmoka.controller;
 
 import hoangvacban.demo.projectmoka.entity.Comment;
 import hoangvacban.demo.projectmoka.model.request.CommentRequest;
+import hoangvacban.demo.projectmoka.model.response.CommentResponse;
 import hoangvacban.demo.projectmoka.model.response.ResponseObject;
 import hoangvacban.demo.projectmoka.service.CommentService;
 import lombok.AccessLevel;
@@ -32,25 +33,25 @@ public class CommentController {
         );
     }
 
+    @PutMapping("add")
+    public ResponseObject addComment(@RequestBody CommentRequest commentRequest) {
+        return commentService.addComment(commentRequest);
+    }
+
     @GetMapping("{id}")
     public ResponseObject getCommentById(@PathVariable long id) {
         return commentService.getCommentById(id);
     }
 
 
-    @PutMapping("add")
-    public ResponseObject addComment(@RequestBody CommentRequest commentRequest) {
-        return commentService.addComment(commentRequest);
-    }
-
     @GetMapping("post/{id}")
     public ResponseObject getAllComments(
             @PathVariable long id,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            PagedResourcesAssembler<Comment> assembler) {
+            PagedResourcesAssembler<CommentResponse> assembler) {
         PageRequest pageRequest = PageRequest.of(page, size);
-        Page<Comment> comments = commentService.getCommentsByPostId(id, pageRequest);
+        Page<CommentResponse> comments = commentService.getCommentsByPostId(id, pageRequest);
         return new ResponseObject(
                 "ok",
                 "ok",

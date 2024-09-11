@@ -15,6 +15,7 @@ public class UserPosts {
     private String createdAt;
     private Long author;
     private String authorAvatar;
+    private String authorName;
     private Long liked;
     private Long commented;
 }

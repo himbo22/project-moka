@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 public interface PostRepository extends JpaRepository<Post, Long> {
     @Query("SELECT new " +
             "hoangvacban.demo.projectmoka.model.response.UserPosts" +
-            "(p.id,p.caption,p.content,p.createdAt,p.author.id,p.author.avatar, count(distinct r.id), count(distinct c.id)) " +
+            "(p.id,p.caption,p.content,p.createdAt,p.author.id,p.author.avatar,p.author.username, count(distinct r.id), count(distinct c.id)) " +
             "FROM Post p left join Comment c on p.id=c.post.id left join Reaction r on p.id=r.post.id " +
             "where p.author.id=:userId " +
             "group by p.id,p.author.id")
@@ -21,7 +21,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     @Query("SELECT new " +
             "hoangvacban.demo.projectmoka.model.response.UserPosts" +
-            "(p.id,p.caption,p.content,p.createdAt,p.author.id,p.author.avatar, count(distinct r.id), count(distinct c.id)) " +
+            "(p.id,p.caption,p.content,p.createdAt,p.author.id,p.author.avatar,p.author.username, count(distinct r.id), count(distinct c.id)) " +
             "FROM Post p left join Comment c on p.id=c.post.id left join Reaction r on p.id=r.post.id " +
             "group by p.id,p.author.id")
     Page<UserPosts> findAllPosts(Pageable pageable);
