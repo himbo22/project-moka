@@ -7,10 +7,13 @@ import hoangvacban.demo.projectmoka.mapper.UserMapper;
 import hoangvacban.demo.projectmoka.model.request.LoginRequest;
 import hoangvacban.demo.projectmoka.model.request.UserRequest;
 import hoangvacban.demo.projectmoka.model.response.ResponseObject;
+import hoangvacban.demo.projectmoka.model.response.UserResponse;
 import hoangvacban.demo.projectmoka.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -25,28 +28,57 @@ public class UserService {
     ImageStorageService imageStorageService;
     UserMapper userMapper;
 
-    public User getUser(long id) {
-        return userRepository.findById(id).orElseThrow(
+    public UserResponse getUser(long id) {
+        return userRepository.findUserById(id).orElseThrow(
                 () -> new AppException(ErrorCode.NOT_FOUND)
         );
     }
 
-    public ResponseObject createUser(UserRequest user, MultipartFile image) {
-        boolean existedUser = userRepository.existsByUsername(user.getUsername());
+    public Page<User> getUserByName(String username, Pageable pageable) {
+        return userRepository.findByUsernameLike(username, pageable);
+    }
+
+    public ResponseObject createUser(
+            String username,
+            String password,
+            String email,
+            String bio,
+            MultipartFile image
+    ) {
+        boolean existedUser = userRepository.existsByUsername(username);
         if (existedUser) {
             throw new AppException(ErrorCode.USER_ALREADY_EXISTED);
         }
         String imageUrl = imageStorageService.storeImage(image);
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+        UserRequest user = new UserRequest(username, "", email, imageUrl, bio);
         User createdUser = userMapper.toUser(user);
-        createdUser.setAvatar(imageUrl);
-        createdUser.setPassword(passwordEncoder.encode(user.getPassword()));
+        createdUser.setPassword(passwordEncoder.encode(password));
         userRepository.save(createdUser);
         return new ResponseObject(
                 "ok",
                 "ok",
                 createdUser
         );
+    }
+
+    public User updateUser(String userId, String username, String bio, MultipartFile image) {
+        User user = userRepository.findById(Long.valueOf(userId)).orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
+        if (!userRepository.existsByUsernameAndId(username, Long.valueOf(userId))) {
+            throw new AppException(ErrorCode.USER_ALREADY_EXISTED);
+        }
+        if (username.contains(" ")) {
+            throw new AppException(ErrorCode.USERNAME_MUST_NOT_CONTAINS_SPACE);
+        }
+        if (username.isBlank() || bio.isBlank() || image == null) {
+            throw new AppException(ErrorCode.EMPTY_INFORMATION);
+        }
+        user.setUsername(username);
+        user.setBio(bio);
+        String imageUrl = imageStorageService.storeImage(image);
+        user.setAvatar(imageUrl);
+
+        return userRepository.save(user);
     }
 
     public ResponseObject loginUser(LoginRequest user) {

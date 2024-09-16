@@ -14,6 +14,7 @@ public enum ErrorCode {
     EXPIRED_TOKEN("1008", "Expired token"),
     EMPTY_INFORMATION("1009", "Empty information"),
     USER_ALREADY_EXISTED("1010", "User already existed"),
+    USERNAME_MUST_NOT_CONTAINS_SPACE("1011", "Username must not contain space"),
     ;
 
     private final String statusCode;
