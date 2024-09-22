@@ -4,7 +4,6 @@ import hoangvacban.demo.projectmoka.entity.Post;
 import hoangvacban.demo.projectmoka.entity.User;
 import hoangvacban.demo.projectmoka.exception.AppException;
 import hoangvacban.demo.projectmoka.exception.ErrorCode;
-import hoangvacban.demo.projectmoka.mapper.PostMapper;
 import hoangvacban.demo.projectmoka.model.response.ResponseObject;
 import hoangvacban.demo.projectmoka.model.response.UserPosts;
 import hoangvacban.demo.projectmoka.repository.PostRepository;
@@ -25,18 +24,16 @@ import java.util.Optional;
 public class PostService {
 
     PostRepository postRepository;
-    PostMapper postMapper;
     ImageStorageService imageStorageService;
     UserRepository userRepository;
 
 
     public ResponseObject createPost(String userId, MultipartFile imageFile, String caption, String createdAt) {
-        String imageUrl = imageStorageService.storeImage(imageFile);
         User user = userRepository.findById(Long.valueOf(userId)).orElseThrow(
                 () -> new AppException(ErrorCode.NOT_FOUND)
         );
+        String imageUrl = imageStorageService.storeImage(imageFile);
         Post newPost = new Post();
-//        Post newPost = postMapper.toPost(post);
         newPost.setContent(imageUrl);
         newPost.setAuthor(user);
         newPost.setCaption(caption);
@@ -86,7 +83,4 @@ public class PostService {
         return postRepository.findAllPosts(pageable);
     }
 
-//    public ResponseObject getPostByUserId(long id) {
-//
-//    }
 }

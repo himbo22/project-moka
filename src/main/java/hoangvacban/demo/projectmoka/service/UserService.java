@@ -70,13 +70,17 @@ public class UserService {
         if (username.contains(" ")) {
             throw new AppException(ErrorCode.USERNAME_MUST_NOT_CONTAINS_SPACE);
         }
-        if (username.isBlank() || bio.isBlank() || image == null) {
-            throw new AppException(ErrorCode.EMPTY_INFORMATION);
+        if (username.isBlank()) {
+            throw new AppException(ErrorCode.USERNAME_MUST_NOT_BLANK);
+        }
+        if (image != null) {
+            String imageUrl = imageStorageService.storeImage(image);
+            user.setAvatar(imageUrl);
+        } else {
+            System.out.println("CAC");
         }
         user.setUsername(username);
         user.setBio(bio);
-        String imageUrl = imageStorageService.storeImage(image);
-        user.setAvatar(imageUrl);
 
         return userRepository.save(user);
     }

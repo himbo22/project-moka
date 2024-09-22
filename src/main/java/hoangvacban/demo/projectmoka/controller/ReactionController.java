@@ -5,7 +5,10 @@ import hoangvacban.demo.projectmoka.service.ReactionService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/reactions/")
@@ -45,6 +48,17 @@ public class ReactionController {
             @PathVariable(name = "user_id") long user_id,
             @PathVariable(name = "post_id") long post_id) {
         return reactionService.existReaction(post_id, user_id);
+    }
+
+    @GetMapping("liked/{userId}/{userIdPostsOwner}")
+    public List<Boolean> likedPosts(
+            @PathVariable("userId") Long userId,
+            @PathVariable("userIdPostsOwner") Long userIdPostsOwner,
+            @RequestParam("page") int page,
+            @RequestParam("size") int size
+    ) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+        return reactionService.getLikedPost(userId, userIdPostsOwner, pageRequest);
     }
 
 }

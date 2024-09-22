@@ -26,8 +26,8 @@ public class PostController {
             @RequestPart(name = "userId") String userId,
             @RequestPart(name = "caption") String caption,
             @RequestPart(name = "createdAt") String createdAt,
-            @RequestPart(name = "content") MultipartFile imageFile) {
-        return postService.createPost(userId, imageFile, caption, createdAt);
+            @RequestPart(name = "content") MultipartFile content) {
+        return postService.createPost(userId, content, caption, createdAt);
     }
 
     @GetMapping("/user/{id}")

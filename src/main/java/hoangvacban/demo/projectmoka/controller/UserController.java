@@ -5,6 +5,7 @@ import hoangvacban.demo.projectmoka.model.request.LoginRequest;
 import hoangvacban.demo.projectmoka.model.response.ResponseObject;
 import hoangvacban.demo.projectmoka.model.response.UserResponse;
 import hoangvacban.demo.projectmoka.service.UserService;
+import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -39,8 +40,8 @@ public class UserController {
     public ResponseObject updateUser(
             @RequestPart("userId") String userId,
             @RequestPart("username") String username,
-            @RequestPart("bio") String bio,
-            @RequestPart("image") MultipartFile image) {
+            @Nullable @RequestPart("bio") String bio,
+            @Nullable @RequestPart("image") MultipartFile image) {
         User user = userService.updateUser(userId, username, bio, image);
         return new ResponseObject("ok", "ok", user);
     }
