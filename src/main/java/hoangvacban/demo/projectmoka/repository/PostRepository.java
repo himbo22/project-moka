@@ -16,7 +16,8 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             "(p.id,p.caption,p.content,p.createdAt,p.author.id,p.author.avatar,p.author.username, count(distinct r.id), count(distinct c.id)) " +
             "FROM Post p left join Comment c on p.id=c.post.id left join Reaction r on p.id=r.post.id " +
             "where p.author.id=:userId " +
-            "group by p.id,p.author.id")
+            "group by p.id,p.author.id " +
+            "order by p.createdAt desc")
     Page<UserPosts> findAllByAuthorId(@Param("userId") Long userId, Pageable pageable);
 
     @Query("SELECT new " +

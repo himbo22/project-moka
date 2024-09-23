@@ -46,6 +46,10 @@ public class PostService {
         );
     }
 
+    public void deletePost(String postId) {
+        postRepository.deleteById(Long.valueOf(postId));
+    }
+
     public Page<UserPosts> findAllByUserId(Long userId, Pageable pageable) {
         userRepository.findById(userId).orElseThrow(
                 () -> new AppException(ErrorCode.NOT_FOUND)

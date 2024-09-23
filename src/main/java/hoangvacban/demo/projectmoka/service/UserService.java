@@ -5,6 +5,7 @@ import hoangvacban.demo.projectmoka.exception.AppException;
 import hoangvacban.demo.projectmoka.exception.ErrorCode;
 import hoangvacban.demo.projectmoka.mapper.UserMapper;
 import hoangvacban.demo.projectmoka.model.request.LoginRequest;
+import hoangvacban.demo.projectmoka.model.request.ResetPasswordRequest;
 import hoangvacban.demo.projectmoka.model.request.UserRequest;
 import hoangvacban.demo.projectmoka.model.response.ResponseObject;
 import hoangvacban.demo.projectmoka.model.response.UserResponse;
@@ -38,6 +39,15 @@ public class UserService {
         return userRepository.findByUsernameLike(username, pageable);
     }
 
+    public User resetPassword(String email, ResetPasswordRequest resetPasswordRequest) {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
+        if (!resetPasswordRequest.getPassword().equals(resetPasswordRequest.getConfirmPassword())) {
+            throw new AppException(ErrorCode.PASSWORD_NOT_EQUALS);
+        }
+        user.setPassword(new BCryptPasswordEncoder(10).encode(resetPasswordRequest.getPassword()));
+        return userRepository.save(user);
+    }
+
     public ResponseObject createUser(
             String username,
             String password,
@@ -48,6 +58,9 @@ public class UserService {
         boolean existedUser = userRepository.existsByUsername(username);
         if (existedUser) {
             throw new AppException(ErrorCode.USER_ALREADY_EXISTED);
+        }
+        if (username.contains(" ")) {
+            throw new AppException(ErrorCode.USERNAME_MUST_NOT_CONTAINS_SPACE);
         }
         String imageUrl = imageStorageService.storeImage(image);
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
@@ -64,7 +77,7 @@ public class UserService {
 
     public User updateUser(String userId, String username, String bio, MultipartFile image) {
         User user = userRepository.findById(Long.valueOf(userId)).orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
-        if (!userRepository.existsByUsernameAndId(username, Long.valueOf(userId))) {
+        if (userRepository.existsByUsernameAndId(username, Long.valueOf(userId))) {
             throw new AppException(ErrorCode.USER_ALREADY_EXISTED);
         }
         if (username.contains(" ")) {

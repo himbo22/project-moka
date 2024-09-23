@@ -45,6 +45,10 @@ public class User {
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     private List<Comment> commentList;
 
+    @JsonIgnore
+    @OneToOne(mappedBy = "user")
+    private ForgotPassword forgotPassword;
+
 //    @OneToMany(mappedBy = "users")
 //    private List<Like> like;
 }

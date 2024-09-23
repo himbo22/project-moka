@@ -2,6 +2,7 @@ package hoangvacban.demo.projectmoka.controller;
 
 import hoangvacban.demo.projectmoka.entity.User;
 import hoangvacban.demo.projectmoka.model.request.LoginRequest;
+import hoangvacban.demo.projectmoka.model.request.ResetPasswordRequest;
 import hoangvacban.demo.projectmoka.model.response.ResponseObject;
 import hoangvacban.demo.projectmoka.model.response.UserResponse;
 import hoangvacban.demo.projectmoka.service.UserService;
@@ -75,6 +76,14 @@ public class UserController {
         return ResponseEntity.ok().body(
                 userService.loginUser(user)
         );
+    }
+
+    @PostMapping("/reset-password/{email}")
+    public ResponseObject resetPassword(
+            @PathVariable String email,
+            @RequestBody ResetPasswordRequest resetPasswordRequest
+    ) {
+        return new ResponseObject("ok", "ok", userService.resetPassword(email, resetPasswordRequest));
     }
 
 }

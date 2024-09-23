@@ -15,6 +15,8 @@ public class ProjectMokaApplication {
         System.setProperty("DB_NAME", Objects.requireNonNull(dotenv.get("DB_NAME")));
         System.setProperty("DB_PASSWORD", Objects.requireNonNull(dotenv.get("DB_PASSWORD")));
         System.setProperty("SIGNER_KEY", Objects.requireNonNull(dotenv.get("SIGNER_KEY")));
+        System.setProperty("MAIL_USERNAME", Objects.requireNonNull(dotenv.get("MAIL_USERNAME")));
+        System.setProperty("MAIL_PASSWORD", Objects.requireNonNull(dotenv.get("MAIL_PASSWORD")));
         SpringApplication.run(ProjectMokaApplication.class, args);
     }
 

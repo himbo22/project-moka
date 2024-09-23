@@ -16,6 +16,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     boolean existsByUsernameAndId(String username, Long id);
 
+    Optional<User> findByEmail(String email);
+
     @Query("select new hoangvacban.demo.projectmoka.model.response.UserResponse" +
             "(u.id, u.username, u.email, u.avatar,u.bio, count(distinct p.id), " +
             "(select count(f.id) from u.followedUsers f)," +

@@ -30,6 +30,16 @@ public class PostController {
         return postService.createPost(userId, content, caption, createdAt);
     }
 
+    @DeleteMapping("/delete/{id}")
+    public ResponseObject delete(@PathVariable("id") String id) {
+        postService.deletePost(id);
+        return new ResponseObject(
+                "ok",
+                "ok",
+                "ok"
+        );
+    }
+
     @GetMapping("/user/{id}")
     public ResponseObject getPostById(@PathVariable("id") Long id, @RequestParam int page, @RequestParam int size,
                                       PagedResourcesAssembler<UserPosts> assembler) {
